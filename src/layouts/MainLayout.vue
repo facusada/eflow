@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { computed } from 'vue'
+import { useAuthStore } from '../stores/authStore'
 
 const commercialLinks = [
   { label: 'Solicitudes Comerciales', to: '/commercial/requests' },
@@ -7,6 +9,9 @@ const commercialLinks = [
   { label: 'Plantillas de Servicio', to: '/commercial/templates' },
   { label: 'Tablero de KPIs', to: '/commercial/kpis' },
 ]
+
+const authStore = useAuthStore()
+const userLabel = computed(() => authStore.user?.name || authStore.user?.email || 'Invitado')
 </script>
 
 <template>
@@ -54,11 +59,18 @@ const commercialLinks = [
         <div class="flex items-center gap-3">
           <div class="text-right hidden sm:block">
             <p class="text-sm font-semibold text-gray-900">Usuario</p>
-            <p class="text-xs text-gray-500">Invitado</p>
+            <p class="text-xs text-gray-500 truncate max-w-[160px]">{{ userLabel }}</p>
           </div>
           <div class="w-10 h-10 rounded-full bg-gray-200 border border-gray-300 flex items-center justify-center text-gray-600 font-semibold">
             US
           </div>
+          <button
+            type="button"
+            class="px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-md transition-colors"
+            @click="authStore.logout"
+          >
+            Cerrar sesión
+          </button>
         </div>
       </header>
 
