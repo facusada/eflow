@@ -1,20 +1,25 @@
 // File: src/views/CommercialRequestDetailView.vue
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useCommercialRequestsStore } from '@/stores/commercialRequestsStore.js'
 import StatusBadge from '@/components/StatusBadge.vue'
+import EstimationEditor from '@/components/EstimationEditor.vue'
 
 const route = useRoute()
 const router = useRouter()
 const store = useCommercialRequestsStore()
 
 const activeTab = ref('summary')
+const editableEstimation = ref(null)
 
 const request = computed(() => store.selectedRequest)
 const loading = computed(() => store.detailLoading)
 const error = computed(() => store.detailError)
+const estimation = computed(() =>
+  request.value && request.value.estimation ? request.value.estimation : null
+)
 
 const tabs = [
   { key: 'summary', label: 'Resumen' },
@@ -30,12 +35,37 @@ onMounted(() => {
   store.fetchRequestById(id)
 })
 
+watch(
+  estimation,
+  (val) => {
+    if (val) {
+      editableEstimation.value = {
+        currency: val.currency,
+        totalHours: val.totalHours,
+        totalAmount: val.totalAmount,
+        phases: val.phases ? val.phases.map((p) => ({ ...p })) : [],
+      }
+    } else {
+      editableEstimation.value = null
+    }
+  },
+  { immediate: true }
+)
+
 const changeTab = (tab) => {
   activeTab.value = tab
 }
 
 const goBack = () => {
   router.push('/commercial/requests')
+}
+
+const handleEstimationUpdate = (newEstimation) => {
+  editableEstimation.value = newEstimation
+  if (request.value) {
+    request.value.estimation = newEstimation
+  }
+  console.log('Estimation saved (mock):', newEstimation)
 }
 </script>
 
@@ -172,9 +202,21 @@ const goBack = () => {
               "{{ request.status }}".
             </div>
           </div>
-          <div v-else-if="activeTab === 'estimation'" class="text-sm text-gray-700">
-            Los datos de estimación se mostrarán aquí.
+
+          <div v-else-if="activeTab === 'estimation'" class="space-y-4 text-sm text-gray-800">
+            <div v-if="!estimation" class="text-gray-600">
+              No hay datos de estimación disponibles para esta solicitud.
+            </div>
+            <div v-else>
+              <EstimationEditor
+                v-if="editableEstimation"
+                :estimation="editableEstimation"
+                :disabled="loading"
+                @update="handleEstimationUpdate"
+              />
+            </div>
           </div>
+
           <div v-else-if="activeTab === 'assignment'" class="text-sm text-gray-700">
             La asignación de equipo se gestionará aquí.
           </div>
