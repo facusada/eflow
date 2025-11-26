@@ -1,4 +1,3 @@
-// File: src/components/AiAssistPanel.vue
 
 <script setup>
 import { ref } from 'vue'

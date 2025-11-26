@@ -1,4 +1,3 @@
-// File: src/components/EstimationEditor.vue
 
 <script setup>
 import { ref, reactive, computed, watch, toRaw } from 'vue'

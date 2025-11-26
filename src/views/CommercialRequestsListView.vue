@@ -1,4 +1,3 @@
-// File: src/views/CommercialRequestsListView.vue
 
 <script setup>
 import { computed, onMounted } from 'vue'

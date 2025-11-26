@@ -1,4 +1,3 @@
-// File: src/components/FormField.vue
 
 <script setup>
 const props = defineProps({

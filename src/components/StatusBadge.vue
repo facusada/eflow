@@ -1,4 +1,3 @@
-// File: src/components/StatusBadge.vue
 
 <script setup>
 const props = defineProps({

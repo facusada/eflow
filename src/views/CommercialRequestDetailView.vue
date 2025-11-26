@@ -1,4 +1,3 @@
-// File: src/views/CommercialRequestDetailView.vue
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'

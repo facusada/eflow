@@ -1,4 +1,3 @@
-// File: src/components/DataTable.vue
 
 <script setup>
 import StatusBadge from './StatusBadge.vue'

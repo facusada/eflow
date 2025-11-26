@@ -1,4 +1,3 @@
-// File: src/services/aiAssistService.js
 
 function delay(result) {
   return new Promise((resolve) => {

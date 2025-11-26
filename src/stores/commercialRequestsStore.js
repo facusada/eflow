@@ -1,4 +1,3 @@
-// File: src/stores/commercialRequestsStore.js
 
 import { defineStore } from 'pinia'
 import { getCommercialRequests, getCommercialRequestById } from '../services/commercialRequestsService'

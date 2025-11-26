@@ -1,4 +1,3 @@
-// File: src/components/FilterBar.vue
 
 <script setup>
 const props = defineProps({
