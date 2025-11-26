@@ -34,7 +34,7 @@ const userLabel = computed(() => authStore.user?.name || authStore.user?.email |
             >
               <a
                 :href="href"
-                @click.prevent="navigate"
+                @click="navigate"
                 class="flex items-center gap-2 px-3 py-2 rounded-md transition-colors"
                 :class="[
                   isActive
